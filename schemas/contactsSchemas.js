@@ -9,12 +9,12 @@ const createContactSchema = Joi.object({
     .required(),
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
-    .message("Must be a valid email")
-    .required(),
+    .message("Must be a valid email"),
   phone: Joi.string()
     .pattern(/^\(\d{3}\) \d{3}-\d{4}$/)
-    .message("Phone number must be like (000) 111-2233")
-    .required(),
+    .message("Phone number must be like (000) 111-2233"),
+  favorite: Joi.boolean(),
+  group: Joi.string().required(),
 });
 
 const updateContactSchema = Joi.object({
@@ -29,6 +29,8 @@ const updateContactSchema = Joi.object({
   phone: Joi.string()
     .pattern(/^\(\d{3}\) \d{3}-\d{4}$/)
     .message("Phone number must be like (000) 111-2233"),
+  favorite: Joi.boolean(),
+  group: Joi.string(),
 })
   .min(1)
   .message("Body must have at least one field");
