@@ -35,6 +35,16 @@ const updateContact = async (req, res) => {
   const { id } = req.params;
 
   const contact = await contactsService.updateContactById(id, req.body);
+
+  if (!contact) throw HttpError(404);
+
+  res.status(200).json(contact);
+};
+
+const updateStatusContact = async (req, res) => {
+  const { id } = req.params;
+  const contact = await contactsService.updateStatusContactById(id, req.body);
+
   if (!contact) throw HttpError(404);
 
   res.status(200).json(contact);
@@ -46,4 +56,5 @@ export default {
   deleteContact: controllerWrapper(deleteContact),
   createContact: controllerWrapper(createContact),
   updateContact: controllerWrapper(updateContact),
+  updateStatusContact: controllerWrapper(updateStatusContact),
 };

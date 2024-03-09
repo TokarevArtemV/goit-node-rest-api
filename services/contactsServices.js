@@ -1,58 +1,19 @@
-import * as fs from "fs/promises";
-import { nanoid } from "nanoid";
-import path from "path";
+import Contact from "../models/Contact.js";
 
-const contactsPath = path.resolve("db", "contacts.json");
+// додав колекцію groups для запам'ятовування і тренування з методом populate()
+const listContacts = () => Contact.find().populate("group", "name");
 
-function updateContacts(contacts) {
-  fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
-}
+const getContactById = (contactId) => Contact.findById(contactId);
 
-const listContacts = async () => {
-  const contacts = await fs.readFile(contactsPath, "utf-8");
+const removeContact = (contactId) => Contact.findByIdAndDelete(contactId);
 
-  return JSON.parse(contacts);
-};
+const addContact = (data) => Contact.create(data);
 
-const getContactById = async (contactId) => {
-  const contacts = await listContacts();
-  const contact = contacts.find((contact) => contact.id === contactId);
-  return contact || null;
-};
+const updateContactById = (id, data) =>
+  Contact.findByIdAndUpdate(id, data).populate("group", "name");
 
-const removeContact = async (contactId) => {
-  const contacts = await listContacts();
-  const index = contacts.findIndex((contact) => contact.id === contactId);
-  if (index === -1) {
-    return null;
-  }
-  const [delContacts] = contacts.splice(index, 1);
-  await updateContacts(contacts);
-
-  return delContacts;
-};
-
-const addContact = async (data) => {
-  const newContact = {
-    id: nanoid(),
-    ...data,
-  };
-  const contacts = await listContacts();
-  contacts.push(newContact);
-  await updateContacts(contacts);
-
-  return newContact;
-};
-
-const updateContactById = async (id, data) => {
-  const contacts = await listContacts();
-  const contactIndex = contacts.findIndex((contact) => contact.id === id);
-  if (contactIndex === -1) return null;
-  contacts[contactIndex] = { ...contacts[contactIndex], ...data };
-
-  await updateContacts(contacts);
-  return contacts[contactIndex];
-};
+const updateStatusContactById = (id, data) =>
+  Contact.findByIdAndUpdate(id, data).populate("group", "name");
 
 export default {
   listContacts,
@@ -60,4 +21,5 @@ export default {
   getContactById,
   removeContact,
   updateContactById,
+  updateStatusContactById,
 };
