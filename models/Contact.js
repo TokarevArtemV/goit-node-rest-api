@@ -22,6 +22,11 @@ const contactSchema = new Schema(
       ref: "group",
       required: true,
     },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
   },
   {
     versionKey: false,

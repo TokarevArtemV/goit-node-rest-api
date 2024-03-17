@@ -15,6 +15,7 @@ const createContactSchema = Joi.object({
     .message("Phone number must be like (000) 111-2233"),
   favorite: Joi.boolean(),
   group: Joi.string().required(),
+  owner: Joi.string(),
 });
 
 const updateContactSchema = Joi.object({
@@ -31,6 +32,7 @@ const updateContactSchema = Joi.object({
     .message("Phone number must be like (000) 111-2233"),
   favorite: Joi.boolean(),
   group: Joi.string(),
+  owner: Joi.string(),
 })
   .min(1)
   .message("Body must have at least one field");

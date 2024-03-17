@@ -4,8 +4,10 @@ import cors from "cors";
 import mongoose from "mongoose";
 import "dotenv/config.js";
 
+import authRouter from "./routes/authRouter.js";
 import contactsRouter from "./routes/contactsRouter.js";
 import groupsRouter from "./routes/groupsRouter.js";
+import authenticate from "./middlewares/authenticate.js";
 
 const { PORT = 3000, DB_HOST } = process.env;
 const app = express();
@@ -13,6 +15,10 @@ const app = express();
 app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
+
+app.use("/api/users", authRouter);
+
+app.use(authenticate);
 
 app.use("/api/contacts", contactsRouter);
 // додав колекцію groups для запам'ятовування і тренування з методом populate()
