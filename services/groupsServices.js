@@ -1,4 +1,4 @@
-import Group from "../models/Groups.js";
+import Group from "../models/Group.js";
 
 const listGroups = () => Group.find();
 

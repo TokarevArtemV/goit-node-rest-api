@@ -1,24 +1,33 @@
 import Contact from "../models/Contact.js";
 
 // додав колекцію groups для запам'ятовування і тренування з методом populate()
-const listContacts = () => Contact.find().populate("group", "name");
+const listContacts = (filter = {}, query = {}) => {
+  return Contact.find(filter, "", query)
+    .populate("group", "name")
+    .populate("owner", "email");
+};
 
-const getContactById = (contactId) => Contact.findById(contactId);
+// const getContactById = (contactId) => Contact.findById(contactId);
+const getOneContact = (filter) => Contact.findOne(filter);
 
-const removeContact = (contactId) => Contact.findByIdAndDelete(contactId);
+const removeContact = (filter) => Contact.findOneAndDelete(filter);
 
 const addContact = (data) => Contact.create(data);
 
-const updateContactById = (id, data) =>
-  Contact.findByIdAndUpdate(id, data).populate("group", "name");
+const updateContactById = (filter, data) =>
+  Contact.findOneAndUpdate(filter, data)
+    .populate("group", "name")
+    .populate("owner", "email");
 
-const updateStatusContactById = (id, data) =>
-  Contact.findByIdAndUpdate(id, data).populate("group", "name");
+const updateStatusContactById = (filter, data) =>
+  Contact.findOneAndUpdate(filter, data)
+    .populate("group", "name")
+    .populate("owner", "email");
 
 export default {
   listContacts,
   addContact,
-  getContactById,
+  getOneContact,
   removeContact,
   updateContactById,
   updateStatusContactById,
