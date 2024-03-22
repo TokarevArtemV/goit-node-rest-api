@@ -12,12 +12,15 @@ const signup = async (data) => {
 
 const updateUser = async (filter, data) => User.findOneAndUpdate(filter, data);
 
-export const validatePassword = async (password, hashPassword) =>
+const validatePassword = async (password, hashPassword) =>
   bcrypt.compare(password, hashPassword);
+
+const deleteUsers = async (filter) => User.deleteMany(filter);
 
 export default {
   signup,
   findUser,
   updateUser,
   validatePassword,
+  deleteUsers,
 };

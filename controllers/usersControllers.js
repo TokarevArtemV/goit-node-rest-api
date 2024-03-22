@@ -1,4 +1,8 @@
+import * as fs from "fs/promises";
+import path from "path";
 import jwt from "jsonwebtoken";
+import gravatar from "gravatar";
+
 import usersService from "../services/usersServices.js";
 import HttpError from "../helpers/HttpError.js";
 import controllerWrapper from "../helpers/ctrlWrapper.js";
@@ -11,11 +15,13 @@ const signup = async (req, res) => {
 
   if (isEmail) throw HttpError(409, "Email in use");
 
-  const newUser = await usersService.signup(req.body);
+  const avatarUrl = gravatar.url(email, { r: "pg" }, true);
+  const newUser = await usersService.signup({ ...req.body, avatarUrl });
 
   res.status(201).json({
     email: newUser.email,
     subscription: newUser.subscription,
+    avatarUrl: newUser.avatarUrl,
   });
 };
 
@@ -47,7 +53,7 @@ const signin = async (req, res) => {
 };
 
 const getCurrent = async (req, res) => {
-  const { email } = req.user;
+  const { email, subscription } = req.user;
 
   res.json({
     email,
@@ -75,10 +81,30 @@ const updateSubscription = async (req, res) => {
   });
 };
 
+const updateAvatar = async (req, res) => {
+  const { _id: id } = req.user;
+
+  const avatarPath = path.resolve("public", "avatars");
+
+  const { path: oldPathAvatar, filename } = req.file;
+
+  const newPathAvatar = path.join(avatarPath, filename);
+
+  await fs.rename(oldPathAvatar, newPathAvatar);
+  const avatarUrl = path.join("avatars", filename);
+
+  const user = await usersService.updateUser({ _id: id }, { avatarUrl });
+
+  res.status(200).json({
+    avatarUrl: user.avatarUrl,
+  });
+};
+
 export default {
   signup: controllerWrapper(signup),
   signin: controllerWrapper(signin),
   signout: controllerWrapper(signout),
   getCurrent: controllerWrapper(getCurrent),
   updateSubscription: controllerWrapper(updateSubscription),
+  updateAvatar: controllerWrapper(updateAvatar),
 };
