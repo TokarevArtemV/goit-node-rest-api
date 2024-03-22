@@ -14,6 +14,7 @@ const userSignupSchema = Joi.object({
     .required(),
   subscription: Joi.string().valid(...subscriptionTypes),
   token: Joi.boolean(),
+  avatarUrl: Joi.string(),
 });
 
 const userSigninSchema = Joi.object({
@@ -29,10 +30,14 @@ const userSigninSchema = Joi.object({
     .required(),
 });
 
-const userUpdateSchema = Joi.object({
+const userUpdateSubscriptionSchema = Joi.object({
   subscription: Joi.string()
     .valid(...subscriptionTypes)
     .required(),
 });
 
-export default { userSignupSchema, userSigninSchema, userUpdateSchema };
+export default {
+  userSignupSchema,
+  userSigninSchema,
+  userUpdateSubscriptionSchema,
+};

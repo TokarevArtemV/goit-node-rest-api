@@ -3,6 +3,7 @@ import contactsControllers from "../controllers/contactsControllers.js";
 import validateBody from "../helpers/validateBody.js";
 import contactsSchemas from "../schemas/contactsSchemas.js";
 import isValidId from "../middlewares/isValidId.js";
+import upload from "../middlewares/upload.js";
 
 const contactsRouter = express.Router();
 
