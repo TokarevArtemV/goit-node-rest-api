@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import request from "supertest";
 import app from "../app.js";
-import * as authService from "../services/usersServices.js";
+import usersServices, * as authService from "../services/usersServices.js";
 
 const { PORT = 3000, TEST_DB_HOST } = process.env;
 let server = null;
@@ -20,6 +20,10 @@ describe("test /login controller", () => {
   afterAll(async () => {
     await mongoose.connection.close();
     server.close();
+  });
+
+  afterEach(async () => {
+    await usersServices.deleteUsers({});
   });
 
   test("test /login with correct data", async () => {
