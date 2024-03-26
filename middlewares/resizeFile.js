@@ -3,6 +3,7 @@ import HttpError from "../helpers/HttpError.js";
 
 const resizeFile = async (req, _, next) => {
   if (!req.file) next(HttpError(400, "Avatar not found"));
+
   const { path: pathAvatar } = req.file;
 
   Jimp.read(pathAvatar)
@@ -12,7 +13,8 @@ const resizeFile = async (req, _, next) => {
         .write(pathAvatar); // save
     })
     .then((resizedFile) => {
-      if (!resizedFile) next(HttpError(400, err.message));
+      if (!resizedFile)
+        next(HttpError(400, "Something wrond with your avatar"));
       next();
     })
     .catch((err) => {

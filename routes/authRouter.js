@@ -28,7 +28,7 @@ authRouter.patch(
 );
 
 authRouter.patch(
-  "/avatars",
+  "/avatar",
   authenticate,
   upload.single("avatarUrl"),
   resizeFile,
