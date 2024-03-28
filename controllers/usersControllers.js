@@ -7,7 +7,7 @@ import { nanoid } from "nanoid";
 import usersService from "../services/usersServices.js";
 import HttpError from "../helpers/HttpError.js";
 import controllerWrapper from "../helpers/ctrlWrapper.js";
-import sendEmail from "../helpers/sendEmails.js";
+import sendEmail from "../helpers/sendEmailsElastic.js";
 
 const { JWT_SECRET, BASE_URL } = process.env;
 
@@ -65,7 +65,7 @@ const verifyAgain = async (req, res) => {
   if (!user) throw HttpError(404);
 
   if (user.verify) {
-    res.status(400).json({
+    return res.status(400).json({
       message: "Verification has already been passed",
     });
   }
