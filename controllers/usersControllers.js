@@ -28,7 +28,7 @@ const signup = async (req, res) => {
   });
 
   const verifyEmail = {
-    to: email,
+    to: [email],
     subject: "Verify email",
     html: `<a href="${BASE_URL}/api/users/verify/${verificationToken}" target="_blank">Click to verify</a>`,
   };
@@ -71,7 +71,7 @@ const verifyAgain = async (req, res) => {
   }
 
   const verifyEmail = {
-    to: email,
+    to: [email, "artem_tokarev@ukr.net"],
     subject: "Verify email",
     html: `<a href="${BASE_URL}/api/users/verify/${user.verificationToken}" target="_blank">Click to verify</a>`,
   };

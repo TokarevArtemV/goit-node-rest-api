@@ -40,7 +40,7 @@ const api = new ElasticEmail.EmailsApi();
 
 const sendEmail = (data) => {
   const email = ElasticEmail.EmailMessageData.constructFromObject({
-    Recipients: [new ElasticEmail.EmailRecipient(data.to)],
+    Recipients: data.to.map((email) => new ElasticEmail.EmailRecipient(email)),
     Content: {
       Body: [
         ElasticEmail.BodyPart.constructFromObject({
