@@ -78,8 +78,8 @@ const verifyAgain = async (req, res) => {
 
   await sendEmail(verifyEmail);
 
-  res.status(201).json({
-    message: "Verify email sand again",
+  res.status(200).json({
+    message: "Verification email sent",
   });
 };
 
