@@ -17,6 +17,13 @@ const userSignupSchema = Joi.object({
   avatarUrl: Joi.string(),
 });
 
+const userVerifySchema = Joi.object({
+  email: Joi.string()
+    .pattern(emailRegexp)
+    .message("Must be a valid email")
+    .required(),
+});
+
 const userSigninSchema = Joi.object({
   email: Joi.string()
     .pattern(emailRegexp)
@@ -38,6 +45,7 @@ const userUpdateSubscriptionSchema = Joi.object({
 
 export default {
   userSignupSchema,
+  userVerifySchema,
   userSigninSchema,
   userUpdateSubscriptionSchema,
 };
