@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 
 import User from "../models/User.js";
 
-const findUser = (email) => User.findOne(email);
+const findUser = (filter) => User.findOne(filter);
 
 const signup = async (data) => {
   const hashPass = await bcrypt.hash(data.password, 10);
